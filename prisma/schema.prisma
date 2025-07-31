@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model registro_votos {
+  id               String  @id @default(cuid())
+  timestamp        String?
+  ip_publica       String?
+  id_public_user   String?
+  numero           String?
+  latitud          String?
+  longitud         String?
+  ci               String?
+  genero           String?
+  dia_nacimiento   String?
+  mes_nacimiento   String?
+  anio_nacimiento  String?
+  pais             String?
+  ciudad           String?
+  departamento     String?
+  provincia        String?
+  municipio        String?
+  recinto          String?
+  candidato        String?
+  tipo             String?
+  token_solicutd   String?
+  codigo_respuesta String?
+  respuesta        String?
+  id_dispositivo   String?
+  metodo           String?
+  refer_envio      String?
+  token_refer      String?
+  pregunta1        String?
+  pregunta2        String?
+  pregunta3        String?
+  pregunta4        String?
+  pregunta5        String?
+  pregunta6        String?
+}
+
+enum metodo {
+  TUXLER
+  MODO_AVION
+}
+
+enum tipo {
+  PRE_ENVIO
+  VOTO_TOKEN
+  VOTO_GERACION_TOKEN_ALEATORIA
+  SIMULACION
+}
+
+model Token {
+  id        String   @id @default(cuid())
+  token     String
+  numero    String?
+  dominio   String?
+  estado    Boolean
+  createdAt DateTime @default(now())
+}

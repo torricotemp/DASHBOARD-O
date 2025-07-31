@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const routes_1 = __importDefault(require("./models/register/routes"));
+const routes_2 = __importDefault(require("./models/tokens/routes"));
+const report_1 = require("./models/register/controllers/report");
+const verify_1 = require("./infraestructura/verify");
+const router = (0, express_1.Router)();
+router.use("/api", routes_1.default);
+router.use("/api/token", routes_2.default);
+router.use(verify_1.verifyToken);
+router.get("/api/dispositivo", report_1.VotoPorUsuario);
+router.get("/reportes/por-cuenta", report_1.ReportesController.reportePorCuenta);
+router.get("/reportes/total", report_1.ReportesController.reporteTotal);
+router.get("/reportes/por-ciudad", report_1.ReportesController.reporteTotalPorCiudad);
+router.get("/reportes/por-metodo", report_1.ReportesController.reportePorMetodo);
+router.get("/reportes/por-metodo-cuenta", report_1.ReportesController.reportePorMetodoCuenta);
+router.get("/reportes/por-ciudad-cuenta", report_1.ReportesController.reportePorCiudadCuenta);
+exports.default = router;

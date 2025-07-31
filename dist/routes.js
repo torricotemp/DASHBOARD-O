@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const preenvio_1 = require("./preenvio/preenvio");
+const saved_1 = require("./validado/saved");
+const test_1 = require("./test");
+const routerv2 = (0, express_1.Router)();
+routerv2.post("/preenvio", preenvio_1.preEnvio);
+routerv2.post("/validado", saved_1.saveValidado);
+routerv2.post("/test", test_1.test);
+exports.default = routerv2;
