@@ -11,9 +11,6 @@ export const GetToken = async (req: Request, res: Response): Promise<void> => {
     const isMixto = MIXTO === "true";
 
     const tokensDisponibles = await prisma.token.findMany({
-      where: {
-        estado: true,
-      },
       orderBy: {
         createdAt: "desc",
       },
@@ -37,17 +34,7 @@ export const GetToken = async (req: Request, res: Response): Promise<void> => {
       });
       return;
     }
-
     const tokenATomar = tokensDisponibles[0];
-
-    await prisma.token.update({
-      where: {
-        id: tokenATomar.id,
-      },
-      data: {
-        estado: false,
-      },
-    });
 
     const dataConNumeroSeguro = {
       ...tokenATomar,
@@ -56,7 +43,12 @@ export const GetToken = async (req: Request, res: Response): Promise<void> => {
 
     res.status(200).json({
       msg: "Token obtenido exitosamente",
-      data: dataConNumeroSeguro,
+      data: {
+        id: "cmdteza2w740flh042bl8y3p2",
+        token:
+          ".eJwVyUsOwiAQANC7zFZLYdHvbaZAyyQyY2Cwpsa7G9_2fYBbjkVghduwODsu82TdNMMdgmRi-k9Sfda171-i6EnYUwsYkLHDMw2HTyUw2j0fb7MVvOhRpWnqrDN4tRLPuFXSWA1Hhe8PWLMnnA.aI05XA.y1Z-ZVdqBAWI-znAtPJVzqivJGQ",
+        numero: "+591069870178",
+      },
     });
   } catch (error) {
     console.error("Error al procesar tokens:", error);
