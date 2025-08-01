@@ -5,13 +5,10 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const GetToken = async (req, res) => {
     try {
-        const { IP, MASIVO, MIXTO } = req.query;
+        const { MASIVO, MIXTO } = req.query;
         const isMasivo = MASIVO === "true";
         const isMixto = MIXTO === "true";
         const tokensDisponibles = await prisma.token.findMany({
-            where: {
-                estado: true,
-            },
             orderBy: {
                 createdAt: "desc",
             },
@@ -33,18 +30,11 @@ const GetToken = async (req, res) => {
             });
             return;
         }
-        const tokenATomar = tokensDisponibles[0];
-        await prisma.token.update({
-            where: {
-                id: tokenATomar.id,
-            },
-            data: {
-                estado: false,
-            },
-        });
+        const randomIndex = Math.floor(Math.random() * tokensDisponibles.length);
+        const tokenAleatorio = tokensDisponibles[randomIndex];
         const dataConNumeroSeguro = {
-            ...tokenATomar,
-            numero: tokenATomar.numero ?? "",
+            ...tokenAleatorio,
+            numero: tokenAleatorio.numero ?? "",
         };
         res.status(200).json({
             msg: "Token obtenido exitosamente",
