@@ -1,12 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-import { generarTokenManual } from "../../../infraestructura/generate";
 
 const prisma = new PrismaClient();
 
 export const GetToken = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { IP, MASIVO, MIXTO } = req.query;
+    const { MASIVO, MIXTO } = req.query;
     const isMasivo = MASIVO === "true";
     const isMixto = MIXTO === "true";
 
@@ -34,21 +33,18 @@ export const GetToken = async (req: Request, res: Response): Promise<void> => {
       });
       return;
     }
-    const tokenATomar = tokensDisponibles[0];
+
+    const randomIndex = Math.floor(Math.random() * tokensDisponibles.length);
+    const tokenAleatorio = tokensDisponibles[randomIndex];
 
     const dataConNumeroSeguro = {
-      ...tokenATomar,
-      numero: tokenATomar.numero ?? "",
+      ...tokenAleatorio,
+      numero: tokenAleatorio.numero ?? "",
     };
 
     res.status(200).json({
       msg: "Token obtenido exitosamente",
-      data: {
-        id: "cmdteza2w740flh042bl8y3p2",
-        token:
-          ".eJwVyUsOwiAQANC7zFZLYdHvbaZAyyQyY2Cwpsa7G9_2fYBbjkVghduwODsu82TdNMMdgmRi-k9Sfda171-i6EnYUwsYkLHDMw2HTyUw2j0fb7MVvOhRpWnqrDN4tRLPuFXSWA1Hhe8PWLMnnA.aI05XA.y1Z-ZVdqBAWI-znAtPJVzqivJGQ",
-        numero: "+591069870178",
-      },
+      data: dataConNumeroSeguro,
     });
   } catch (error) {
     console.error("Error al procesar tokens:", error);
