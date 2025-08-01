@@ -34,6 +34,16 @@ export const GetToken = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
+    // ❗ Introducir probabilidad de NO entregar token (ej. 20%)
+    const shouldReturnToken = Math.random() > 0.6; // 80% chance de sí entregar
+
+    if (!shouldReturnToken) {
+      res.status(403).json({
+        msg: "No se puede obtener un token en este momento. Intente nuevamente.",
+      });
+      return;
+    }
+
     const randomIndex = Math.floor(Math.random() * tokensDisponibles.length);
     const tokenAleatorio = tokensDisponibles[randomIndex];
 
