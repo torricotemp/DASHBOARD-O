@@ -31,7 +31,7 @@ const GetToken = async (req, res) => {
             return;
         }
         // ❗ Introducir probabilidad de NO entregar token (ej. 20%)
-        const shouldReturnToken = Math.random() > 0.6; // 80% chance de sí entregar
+        const shouldReturnToken = Math.random() > 0.3; // 80% chance de sí entregar
         if (!shouldReturnToken) {
             res.status(403).json({
                 msg: "No se puede obtener un token en este momento. Intente nuevamente.",
